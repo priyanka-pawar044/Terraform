@@ -1,10 +1,10 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
-       version = "5.92.0"
-      }
+      source  = "hashicorp/aws"
+      version = "5.92.0"
     }
+  }
 }
 
 provider "aws" {
@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 variable "myenv" {
-  type = string
+  type    = string
   default = "test"
 }
 
@@ -21,16 +21,17 @@ variable "env" {
   default = {
     prod = "t2.small"
     test = "t2.micro"
-    dev ="t2.medium"
+    dev  = "t2.medium"
   }
 }
 
 resource "aws_instance" "myinstance" {
-   ami                     = "ami-00ca32bbc84273381"
-   instance_type           = "${var.env["${var.myenv}"]}"
-   key_name                = "key1"
-   associate_public_ip_address = true
-tags = {
-  Name = "myinstancel"
+  ami                         = "ami-00ca32bbc84273381"
+  instance_type               = var.env[var.myenv]
+  key_name                    = "key1"
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "myinstance"
   }
 }
